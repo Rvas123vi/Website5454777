@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toko Online</title>
+    <style>
+        :root {
+            --primary-color: #4285F4;
+            --secondary-color: #FF9800;
+            --text-color: #333;
+            --bg-color: #f5f5f5;
+            --card-bg: #ffffff;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: all 0.5s ease;
+            overflow-x: hidden;
+        }
+
+        .dark-mode {
+            --primary-color: #2196F3;
+            --secondary-color: #FF5722;
+            --text-color: #f5f5f5;
+            --bg-color: #121212;
+            --card-bg: #242424;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 10;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        nav ul li {
+            margin-left: 20px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.3s;
+        }
+
+        nav ul li a:hover {
+            opacity: 0.8;
+        }
+
+        .theme-toggle {
+            position: fixed;
+            left: 20px;
+            top: 100px;
+            z-index: 100;
+            background: var(--card-bg);
+            border-radius: 30px;
+            padding: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .theme-button {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 50%;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .theme-button:hover {
+            transform: scale(1.1);
+        }
+
+        .weather-toggle {
+            position: fixed;
+            left: 20px;
+            top: 300px;
+            z-index: 100;
+            background: var(--card-bg);
+            border-radius: 30px;
+            padding: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .weather-button {
+            background: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 50%;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .weather-button:hover {
+            transform: scale(1.1);
+        }
+
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .product-card {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .product-image {
+            height: 200px;
+            width: 100%;
+            object-fit: cover;
+        }
+
+        .product-info {
+            padding: 20px;
+        }
+
+        .product-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--text-color);
+        }
+
+        .product-price {
+            color: var(--primary-color);
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .product-description {
+            font-size: 14px;
+            color: var(--text-color);
+            opacity: 0.8;
+            margin-bottom: 15px;
+        }
+
+        .btn {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 10px 20px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        footer {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 50px;
+        }
+
+        /* Efek untuk background */
+        .stars, .snow, .rain, .sun {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+
+        .star {
+            position: absolute;
+            background-color: white;
+            border-radius: 50%;
+            animation: twinkle 2s infinite;
+        }
+
+        .snowflake, .raindrop {
+            position: absolute;
+            background-color: white;
+            border-radius: 50%;
+            animation: fall 10s linear infinite;
+        }
+
+        .raindrop {
+            width: 2px !important;
+            height: 10px !important;
+            border-radius: 0 !important;
+            background-color: rgba(128, 199, 255, 0.8);
+        }
+
+        .sun-ray {
+            position: absolute;
+            top: 50px;
+            right: 50px;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, #ffeb3b 0%, rgba(255, 235, 59, 0) 70%);
+            border-radius: 50%;
+            animation: pulse 4s infinite;
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0.2; }
+            50% { opacity: 1; }
+            100% { opacity: 0.2; }
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(-100px); }
+            100% { transform: translateY(100vh); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.1); opacity: 1; }
+            100% { transform: scale(1); opacity: 0.8; }
+        }
+
+        /* Profile section */
+        .profile-section {
+            display: none;
+            padding: 20px;
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            margin-top: 40px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .profile-pic {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 20px;
+        }
+
+        .profile-name {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        .profile-info {
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        /* Home section */
+        #home-section {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <audio id="bgMusic" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <div class="stars" id="stars"></div>
+    <div class="snow" id="snow"></div>
+    <div class="rain" id="rain"></div>
+    <div class="sun" id="sun"></div>
+
+    <div class="theme-toggle">
+        <button class="theme-button" id="lightMode">☀️</button>
+        <button class="theme-button" id="darkMode">🌙</button>
+    </div>
+
+    <div class="weather-toggle">
+        <button class="weather-button" id="starMode">⭐</button>
+        <button class="weather-button" id="snowMode">❄️</button>
+        <button class="weather-button" id="rainMode">🌧️</button>
+        <button class="weather-button" id="sunMode">☀️</button>
+    </div>
+
+    <header>
+        <div class="header-content">
+            <div class="logo">Toko Online</div>
+            <nav>
+                <ul>
+                    <li><a href="#" id="home-link">Home</a></li>
+                    <li><a href="#" id="profile-link">Profile</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div id="home-section">
+            <h1>Produk Terbaru Kami</h1>
+            <div class="products">
+                <div class="product-card">
+                    <img src="/api/placeholder/400/320" alt="Produk 1" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-title">Sepatu Sport Premium</h3>
+                        <div class="product-price">Rp 599.000</div>
+                        <p class="product-description">Sepatu olahraga kualitas premium dengan teknologi terbaru untuk kenyamanan maksimal.</p>
+                        <a href="https://wa.me/628123456789?text=Saya%20tertarik%20dengan%20Sepatu%20Sport%20Premium" class="btn">Beli Sekarang</a>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <img src="/api/placeholder/400/320" alt="Produk 2" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-title">Smartwatch Canggih</h3>
+                        <div class="product-price">Rp 1.299.000</div>
+                        <p class="product-description">Smartwatch dengan fitur monitor kesehatan, notifikasi, dan tahan air hingga 50m.</p>
+                        <a href="https://wa.me/628123456789?text=Saya%20tertarik%20dengan%20Smartwatch%20Canggih" class="btn">Beli Sekarang</a>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <img src="/api/placeholder/400/320" alt="Produk 3" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-title">Laptop UltraSlim Pro</h3>
+                        <div class="product-price">Rp 12.999.000</div>
+                        <p class="product-description">Laptop tipis dan ringan dengan performa tinggi untuk profesional dan kreator konten.</p>
+                        <a href="https://wa.me/628123456789?text=Saya%20tertarik%20dengan%20Laptop%20UltraSlim%20Pro" class="btn">Beli Sekarang</a>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <img src="/api/placeholder/400/320" alt="Produk 4" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-title">Kamera DSLR 4K</h3>
+                        <div class="product-price">Rp 8.499.000</div>
+                        <p class="product-description">Kamera DSLR dengan kemampuan merekam video 4K dan teknologi autofocus terbaru.</p>
+                        <a href="https://wa.me/628123456789?text=Saya%20tertarik%20dengan%20Kamera%20DSLR%204K" class="btn">Beli Sekarang</a>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <img src="/api/placeholder/400/320" alt="Produk 5" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-title">Speaker Bluetooth Hi-Fi</h3>
+                        <div class="product-price">Rp 1.999.000</div>
+                        <p class="product-description">Speaker bluetooth dengan kualitas suara Hi-Fi dan baterai tahan hingga 24 jam.</p>
+                        <a href="https://wa.me/628123456789?text=Saya%20tertarik%20dengan%20Speaker%20Bluetooth%20Hi-Fi" class="btn">Beli Sekarang</a>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <img src="/api/placeholder/400/320" alt="Produk 6" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-title">Tas Ransel Premium</h3>
+                        <div class="product-price">Rp 899.000</div>
+                        <p class="product-description">Tas ransel multifungsi dengan material premium anti air dan kompartemen laptop.</p>
+                        <a href="https://wa.me/628123456789?text=Saya%20tertarik%20dengan%20Tas%20Ransel%20Premium" class="btn">Beli Sekarang</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="profile-section" class="profile-section">
+            <div class="profile-header">
+                <img src="/api/placeholder/100/100" alt="Profile" class="profile-pic">
+                <h2 class="profile-name">Nama Pemilik Toko</h2>
+            </div>
+            <div class="profile-info">
+                <p>Selamat datang di toko online kami! Saya adalah pendiri dan pemilik toko ini yang berdedikasi untuk menyediakan produk berkualitas tinggi dengan harga terbaik.</p>
+                <p>Toko ini didirikan pada tahun 2022 dengan visi menjadi platform belanja online terpercaya yang mengutamakan kepuasan pelanggan. Kami hanya menjual produk original dan berkualitas premium.</p>
+                <p>Silakan hubungi kami melalui WhatsApp untuk konsultasi produk atau bantuan pembelian. Kami siap melayani Anda dengan sepenuh hati.</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Toko Online. Semua hak dilindungi.</p>
+    </footer>
+
+    <script>
+        // Autoplay background music
+        window.addEventListener('DOMContentLoaded', function() {
+            const bgMusic = document.getElementById('bgMusic');
+            bgMusic.volume = 0.3; // Set volume to 30%
+            
+            // Try to play music (browser policies may prevent autoplay)
+            const playPromise = bgMusic.play();
+            if (playPromise !== undefined) {
+                playPromise.catch(error => {
+                    console.log("Autoplay prevented. User interaction required.");
+                });
+            }
+            
+            // Enable music on first user interaction
+            document.body.addEventListener('click', function() {
+                bgMusic.play().catch(error => {
+                    console.log("Still can't play audio:", error);
+                });
+            }, {once: true});
+        });
+
+        // Navigation
+        document.getElementById('home-link').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('home-section').style.display = 'block';
+            document.getElementById('profile-section').style.display = 'none';
+        });
+
+        document.getElementById('profile-link').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('home-section').style.display = 'none';
+            document.getElementById('profile-section').style.display = 'block';
+        });
+
+        // Theme toggle
+        document.getElementById('lightMode').addEventListener('click', function() {
+            document.body.classList.remove('dark-mode');
+        });
+
+        document.getElementById('darkMode').addEventListener('click', function() {
+            document.body.classList.add('dark-mode');
+        });
+
+        // Create stars
+        function createStars() {
+            const stars = document.getElementById('stars');
+            stars.innerHTML = '';
+            const starsCount = 100;
+            
+            for (let i = 0; i < starsCount; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                
+                // Random size between 1 and 3 pixels
+                const size = Math.random() * 2 + 1;
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                
+                // Random position
+                star.style.top = `${Math.random() * 100}%`;
+                star.style.left = `${Math.random() * 100}%`;
+                
+                // Random delay for twinkling effect
+                star.style.animationDelay = `${Math.random() * 2}s`;
+                
+                stars.appendChild(star);
+            }
+        }
+
+        // Create snowflakes
+        function createSnow() {
+            const snow = document.getElementById('snow');
+            snow.innerHTML = '';
+            const snowCount = 50;
+            
+            for (let i = 0; i < snowCount; i++) {
+                const snowflake = document.createElement('div');
+                snowflake.className = 'snowflake';
+                
+                // Random size between 5 and 10 pixels
+                const size = Math.random() * 5 + 5;
+                snowflake.style.width = `${size}px`;
+                snowflake.style.height = `${size}px`;
+                
+                // Random position
+                snowflake.style.left = `${Math.random() * 100}%`;
+                
+                // Random falling duration
+                const duration = (Math.random() * 5) + 5;
+                snowflake.style.animation = `fall ${duration}s linear infinite`;
+                
+                // Random delay
+                snowflake.style.animationDelay = `${Math.random() * 5}s`;
+                
+                snow.appendChild(snowflake);
+            }
+        }
+
+        // Create raindrops
+        function createRain() {
+            const rain = document.getElementById('rain');
+            rain.innerHTML = '';
+            const rainCount = 100;
+            
+            for (let i = 0; i < rainCount; i++) {
+                const raindrop = document.createElement('div');
+                raindrop.className = 'raindrop';
+                
+                // Random position
+                raindrop.style.left = `${Math.random() * 100}%`;
+                
+                // Random falling duration (faster than snow)
+                const duration = (Math.random() * 2) + 1;
+                raindrop.style.animation = `fall ${duration}s linear infinite`;
+                
+                // Random delay
+                raindrop.style.animationDelay = `${Math.random() * 2}s`;
+                
+                rain.appendChild(raindrop);
+            }
+        }
+
+        // Create sunny effect
+        function createSun() {
+            const sun = document.getElementById('sun');
+            sun.innerHTML = '';
+            
+            const ray = document.createElement('div');
+            ray.className = 'sun-ray';
+            sun.appendChild(ray);
+        }
+
+        // Initialize all weather effects
+        createStars();
+        createSnow();
+        createRain();
+        createSun();
+
+        // Weather toggle
+        document.getElementById('starMode').addEventListener('click', function() {
+            document.getElementById('stars').style.opacity = '1';
+            document.getElementById('snow').style.opacity = '0';
+            document.getElementById('rain').style.opacity = '0';
+            document.getElementById('sun').style.opacity = '0';
+        });
+
+        document.getElementById('snowMode').addEventListener('click', function() {
+            document.getElementById('stars').style.opacity = '0';
+            document.getElementById('snow').style.opacity = '1';
+            document.getElementById('rain').style.opacity = '0';
+            document.getElementById('sun').style.opacity = '0';
+        });
+
+        document.getElementById('rainMode').addEventListener('click', function() {
+            document.getElementById('stars').style.opacity = '0';
+            document.getElementById('snow').style.opacity = '0';
+            document.getElementById('rain').style.opacity = '1';
+            document.getElementById('sun').style.opacity = '0';
+        });
+
+        document.getElementById('sunMode').addEventListener('click', function() {
+            document.getElementById('stars').style.opacity = '0';
+            document.getElementById('snow').style.opacity = '0';
+            document.getElementById('rain').style.opacity = '0';
+            document.getElementById('sun').style.opacity = '1';
+        });
+
+        // Default to stars effect on load
+        document.getElementById('stars').style.opacity = '1';
+    </script>
+</body>
+</html>
